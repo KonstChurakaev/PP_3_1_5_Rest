@@ -2,7 +2,6 @@ package ru.kata.spring.boot_security.demo.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,13 +40,13 @@ public class AdminController {
     }
 
     @GetMapping(value = "add")
-    public String addUser(Model model) {
+    public String getFormAddUser(Model model) {
         model.addAttribute("user", new User());
         return "addUser";
     }
 
     @PostMapping(value = "add")
-    public String createUser(@ModelAttribute("user") User user,
+    public String addNewUser(@ModelAttribute("user") User user,
                              @RequestParam(required = false) String roleAdmin) {
         Set<Role> roles = new HashSet<>();
         roles.add(roleService.getRoleById(2L));
@@ -61,21 +60,21 @@ public class AdminController {
     }
 
     @GetMapping(value = "/edit/{id}")
-    public String editUser(Model model, @PathVariable("id") Long id) {
+    public String getFormEditUser(Model model, @PathVariable("id") Long id) {
         User user = userService.getUserById(id);
         model.addAttribute("user", user);
         return "udate";
     }
 
     @PostMapping(value = "/edit/{id}")
-    public String userUpdate(@ModelAttribute("user") User user) {
+    public String updateUser(@ModelAttribute("user") User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.updateUser(user);
         return "redirect:/admin/allUsers";
     }
 
     @PostMapping("{id}")
-    public String delete(@PathVariable("id") Long id) {
+    public String deleteUser(@PathVariable("id") Long id) {
         userService.removeUserById(id);
         return "redirect:/admin/allUsers";
     }
