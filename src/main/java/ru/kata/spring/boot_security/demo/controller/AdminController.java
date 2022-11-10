@@ -33,7 +33,7 @@ public class AdminController {
     }
 
     @GetMapping("/allUsers")
-    public String allUsers(Model model) {
+    public String getAllUsers(Model model) {
         List<User> user = userService.getAllUser();
         model.addAttribute("user", user);
         return "allUsers";
