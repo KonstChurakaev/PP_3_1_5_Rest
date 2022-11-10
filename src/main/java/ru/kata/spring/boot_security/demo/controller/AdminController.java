@@ -32,7 +32,7 @@ public class AdminController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @GetMapping("/allUsers")
+    @GetMapping("/allUsers" )
     public String getAllUsers(Model model) {
         List<User> user = userService.getAllUser();
         model.addAttribute("user", user);

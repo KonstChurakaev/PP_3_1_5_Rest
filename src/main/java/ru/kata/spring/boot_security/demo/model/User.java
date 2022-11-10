@@ -33,7 +33,7 @@ public class User implements UserDetails {
 
     public List<SimpleGrantedAuthority> getAuthorities() {
 
-        return roles.stream().map(p->new SimpleGrantedAuthority(p.getName())).collect(Collectors.toList());
+        return roles.stream().map(p -> new SimpleGrantedAuthority(p.getName())).collect(Collectors.toList());
     }
 
     public User(String username, String password, Set<Role> roles) {
