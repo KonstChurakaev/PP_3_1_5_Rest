@@ -2,79 +2,59 @@ package ru.kata.spring.boot_security.demo.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleServiceImpl;
 import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
 
-
-    private UserServiceImpl userService;
-    private RoleServiceImpl roleService;
-    private PasswordEncoder passwordEncoder;
+    private final UserServiceImpl userService;
+    private final RoleServiceImpl roleService;
 
     @Autowired
-    public AdminController(UserServiceImpl userService, RoleServiceImpl roleService,
-                           PasswordEncoder passwordEncoder) {
+    public AdminController(UserServiceImpl userService, RoleServiceImpl roleService) {
         this.userService = userService;
         this.roleService = roleService;
-        this.passwordEncoder = passwordEncoder;
     }
 
-    @GetMapping("/allUsers" )
-    public String getAllUsers(Model model) {
-        List<User> user = userService.getAllUser();
-        model.addAttribute("user", user);
+    @GetMapping("/allUsers")
+    public String allUsers( Model model, Principal principal) {
+        System.out.println("Зашел пользователь:"+userService.findByUserName(principal.getName()));
+        model.addAttribute("userAdmin", userService.findByUserName(principal.getName()));
+        model.addAttribute("newUser", new User());
+        model.addAttribute("user", userService.getAllUser());
+        model.addAttribute("listRoles", roleService.getAllRoles());
+
         return "allUsers";
     }
 
-    @GetMapping(value = "add")
-    public String getFormAddUser(Model model) {
-        model.addAttribute("user", new User());
-        return "addUser";
-    }
-
-    @PostMapping(value = "add")
-    public String addNewUser(@ModelAttribute("user") User user,
-                             @RequestParam(required = false) String roleAdmin) {
-        Set<Role> roles = new HashSet<>();
-        roles.add(roleService.getRoleById(2L));
-        if (roleAdmin != null && roleAdmin.equals("ROLE_ADMIN")) {
-            roles.add(roleService.getRoleById(1L));
-        }
-        user.setRoles(roles);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+    @PostMapping(value = "/add")
+    public String addNewUser(@ModelAttribute("user") User user) {
+        System.out.println("Добавляю: "+ user);
         userService.addUser(user);
         return "redirect:/admin/allUsers";
     }
 
-    @GetMapping(value = "/edit/{id}")
-    public String getFormEditUser(Model model, @PathVariable("id") Long id) {
-        User user = userService.getUserById(id);
-        model.addAttribute("user", user);
-        return "udate";
-    }
-
     @PostMapping(value = "/edit/{id}")
-    public String updateUser(@ModelAttribute("user") User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+    public String userUpdate(@ModelAttribute("user") User user) {
+
+        System.out.println("редактирую: "+user);
+
         userService.updateUser(user);
         return "redirect:/admin/allUsers";
     }
 
-    @PostMapping("{id}")
+    @PostMapping("/delete/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
+        System.out.println("удален пользователь: "+userService.getUserById(id));
+
         userService.removeUserById(id);
         return "redirect:/admin/allUsers";
     }
