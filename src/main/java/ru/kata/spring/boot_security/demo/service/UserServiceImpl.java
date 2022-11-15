@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl implements UserService {
     private final UserDao userDao;
-
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -53,7 +52,6 @@ public class UserServiceImpl implements UserService {
     public User getUserById(Long id) {
         return userDao.getOne(id);
     }
-
 
     @Transactional
     @Override

@@ -21,6 +21,7 @@ public class UserController {
 
     @GetMapping(value = "/oneUser")
     public String getUserPage(Model model, Principal principal) {
+        System.out.println("Зашел на страницу одинокого юзера: " + principal.toString());
         model.addAttribute("user", userService.findByUserName(principal.getName()));
         return "oneUser";
     }
