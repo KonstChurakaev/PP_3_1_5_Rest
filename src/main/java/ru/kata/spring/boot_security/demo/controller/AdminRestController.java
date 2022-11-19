@@ -3,9 +3,7 @@ package ru.kata.spring.boot_security.demo.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
@@ -27,12 +25,6 @@ public class AdminRestController {
         this.roleService = roleService;
     }
 
-
-    @GetMapping("/roles")
-    public ResponseEntity<List<Role>> getAllRoles() {
-        return new ResponseEntity<>(roleService.getAllRoles(), HttpStatus.OK);
-    }
-
     @GetMapping(value = "/user")
     public User getUser(Principal principal) {
         return userService.findUserByEmail(principal.getName());
@@ -45,13 +37,7 @@ public class AdminRestController {
 
     @PostMapping("/newUser")
     public ResponseEntity<User> addNewUser(@RequestBody User user) {
-        System.out.println("сохраняю новго юзера:"+ user);
         userService.saveUser(user);
-        return new ResponseEntity<>(user, HttpStatus.OK);
-    }
-
-    @GetMapping("/users/current_user")
-    public ResponseEntity <User> showCurrentUser(@AuthenticationPrincipal User user) {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 

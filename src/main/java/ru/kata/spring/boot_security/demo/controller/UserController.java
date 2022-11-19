@@ -12,7 +12,7 @@ import java.security.Principal;
 import java.util.List;
 
 @Controller
-@RequestMapping
+@RequestMapping("/user")
 public class UserController {
 
     private final UserService userService;
@@ -23,7 +23,7 @@ public class UserController {
         this.roleService = roleService;
     }
 
-    @GetMapping("/user")
+    @GetMapping
     public String getUser() {
         return "user";
     }

@@ -15,16 +15,13 @@ import java.security.Principal;
 @RequestMapping
 public class AuthController {
 
-
     private final UserService userService;
-
     private final RoleServiceImpl roleService;
 
     public AuthController(UserService userService, RoleServiceImpl roleService) {
         this.userService = userService;
         this.roleService = roleService;
     }
-
 
     @GetMapping("/admin")
     public String index(Model model, Principal principal) {
