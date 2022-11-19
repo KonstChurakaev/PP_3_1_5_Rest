@@ -25,21 +25,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                //Доступ только для не зарегистрированных пользователей
-                .antMatchers("/login").not().fullyAuthenticated()
-                //Доступ только для пользователей с ролью Администратор
+                .antMatchers("/", "/static/**", "/api/**").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                //Доступ для юзера
                 .antMatchers("/user/**").hasAnyRole("ADMIN", "USER")
-                //Главная страница. Доступ разрешен всем пользователей
-                .antMatchers("/").permitAll()
-                //Все остальные страницы требуют аутентификации
-                .anyRequest().authenticated()
                 .and()
-                //Настройка для входа в систему
-                .formLogin().successHandler(successUserHandler)
+                .formLogin()
+                .loginPage("/login")
+                .successHandler(successUserHandler)
+                .usernameParameter("email")
+                .passwordParameter("pass")
+                .permitAll()
                 .and()
-                .logout();
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login")
+                .permitAll()
+                .and()
+                .csrf().disable();
     }
 
     @Bean

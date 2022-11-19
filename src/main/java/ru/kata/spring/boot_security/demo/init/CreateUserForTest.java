@@ -31,13 +31,14 @@ public class CreateUserForTest implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        List<User> users = userService.getAllUser();
+        List<User> users = userService.getAllUsers();
 
         if (users.isEmpty()) {
             Set<Role> userRole = new HashSet<>();
             Set<Role> adminRole = new HashSet<>();
-            Role role1 = new Role("ROLE_USER");
-            Role role2 = new Role("ROLE_ADMIN");
+            Role role1 = new Role("ROLE_ADMIN");
+            Role role2 = new Role("ROLE_USER");
+
 
             roleService.addRole(role1);
             roleService.addRole(role2);
@@ -46,8 +47,8 @@ public class CreateUserForTest implements ApplicationRunner {
             adminRole.add(role1);
             adminRole.add(role2);
 
-            userService.addUser(new User("Ivan", "Ivanov", (byte) 20, "admin@admin", "1", adminRole));
-            userService.addUser(new User("Oleg", "Petrov", (byte) 20, "user@user", "1", userRole));
+            userService.saveUser(new User("Ivan", "Ivanov", (byte) 20, "admin@admin", "1", adminRole));
+            userService.saveUser(new User("Oleg", "Petrov", (byte) 20, "user@user", "1", userRole));
 
         }
     }

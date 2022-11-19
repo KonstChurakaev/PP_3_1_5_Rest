@@ -30,20 +30,20 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void addUser(User user) {
+    public void saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userDao.save(user);
     }
 
     @Transactional
     @Override
-    public void removeUserById(Long id) {
+    public void deleteUserById(Long id) {
         userDao.deleteById(id);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public List<User> getAllUser() {
+    public List<User> getAllUsers() {
         return userDao.findAll();
     }
 
@@ -63,14 +63,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional(readOnly = true)
-    public User findByUserName(String userName) {
-        return userDao.findByEmail(userName);
+    public User findUserByEmail(String email) {
+        return userDao.findByEmail(email);
     }
 
     @Transactional(readOnly = true)
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = findByUserName(username);
+        User user = findUserByEmail(username);
         if (user == null) {
             throw new UsernameNotFoundException("Нет такого пользователя");
         }
