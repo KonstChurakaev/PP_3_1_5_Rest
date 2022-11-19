@@ -24,26 +24,8 @@ public class UserController {
     }
 
     @GetMapping("/user")
-    public String getUserInfo(Principal principal, Model model) {
-        //principal - сжатая информация о текущем пользователе
-        model.addAttribute("user", userService.findUserByEmail(principal.getName()));
+    public String getUser() {
         return "user";
     }
 
-//    @GetMapping("/user")
-//    public String getUser() {
-//        return "user";
-//    }
-
-    @GetMapping(value = "/admins")
-    public String getAdmin() {
-        return "admin";
-    }
-
-    @GetMapping(value = "admins/new")
-    public String addUser(Model model) {
-        List<Role> role = roleService.getAllRoles();
-        model.addAttribute("listRole", role);
-        return "addUser";
-    }
 }

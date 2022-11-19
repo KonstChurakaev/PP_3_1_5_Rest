@@ -43,13 +43,9 @@ public class AdminRestController {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
-    @GetMapping("/users/{id}")
-    public ResponseEntity<User> getUser(@PathVariable(name = "id") Long id) {
-        return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
-    }
-
     @PostMapping("/newUser")
     public ResponseEntity<User> addNewUser(@RequestBody User user) {
+        System.out.println("сохраняю новго юзера:"+ user);
         userService.saveUser(user);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
@@ -59,13 +55,13 @@ public class AdminRestController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @PutMapping("/users/{id}")
+    @PutMapping("/edit/{id}")
     public ResponseEntity<User> update(@RequestBody User user) {
         userService.updateUser(user);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Long> delete(@PathVariable("id") Long id) {
         userService.deleteUserById(id);
         return new ResponseEntity<>(id, HttpStatus.OK);

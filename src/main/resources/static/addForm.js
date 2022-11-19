@@ -32,7 +32,6 @@ addForm.addEventListener("submit", (e) => {
         .then(() => allUsers())
         .then(() => addForm.reset());
 
-
     return show('Page1','Page2');
 
 })

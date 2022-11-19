@@ -2,21 +2,22 @@ function userPage() {
     const url = '/api/user'
 
     fetch(url).then(response => response.json()).then(user => {
-        let rolesList = ''
+        let userRoles = ''
         for (const rolesListElement of user.roles) {
-            rolesList = rolesList + rolesListElement.name + ' '
+            userRoles = userRoles + rolesListElement.name.split("_")[1] + ', '
         }
+        userRoles = userRoles.substring(0, userRoles.length-2)
         $('#navbarEmail').text(`${user.email}`)
-        $('#navbarRole').text(`${rolesList}`)
+        $('#navbarRole').text(`${userRoles}`)
 
         let trHtml =
             `<tr>
                     <td>${user.id}</td>
-                    <td>${user.firstName}</td>
-                    <td>${user.lastName}</td>
+                    <td>${user.username}</td>
+                    <td>${user.lastname}</td>
                     <td>${user.age}</td>
                     <td>${user.email}</td>
-                    <td>${rolesList}</td>
+                    <td>${userRoles}</td>
                 </tr>`
         $('#userTableBody').html(trHtml)
     })
