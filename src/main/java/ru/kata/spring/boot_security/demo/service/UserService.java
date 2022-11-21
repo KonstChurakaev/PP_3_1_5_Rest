@@ -13,8 +13,6 @@ public interface UserService extends UserDetailsService {
 
     List<User> getAllUsers();
 
-    User getUserById(Long id);
-
     void updateUser(User user);
 
     User findUserByEmail(String email);

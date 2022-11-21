@@ -7,7 +7,8 @@ function userPage() {
             userRoles = userRoles + rolesListElement.name.split("_")[1] + ', '
         }
         userRoles = userRoles.substring(0, userRoles.length-2)
-        $('#navbarEmail').text(`${user.email}`)
+
+        $('#navbarName').text(`${user.username}`)
         $('#navbarRole').text(`${userRoles}`)
 
         let trHtml =
@@ -19,7 +20,7 @@ function userPage() {
                     <td>${user.email}</td>
                     <td>${userRoles}</td>
                 </tr>`
-        $('#userTableBody').html(trHtml)
+        $('#userTable').html(trHtml)
     })
 }
 userPage()

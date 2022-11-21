@@ -1,7 +1,6 @@
 async function allUsers() {
 
-
-    const response = await fetch("api/allUsers");
+    const response = await fetch("api/users");
 
     if (response.ok) {
         let json = await response.json()

@@ -47,12 +47,6 @@ public class UserServiceImpl implements UserService {
         return userDao.findAll();
     }
 
-    @Transactional(readOnly = true)
-    @Override
-    public User getUserById(Long id) {
-        return userDao.getOne(id);
-    }
-
     @Transactional
     @Override
     public void updateUser(User user) {
@@ -75,10 +69,6 @@ public class UserServiceImpl implements UserService {
             throw new UsernameNotFoundException("Нет такого пользователя");
         }
         return new org.springframework.security.core.userdetails.User(user.getEmail()
-                , user.getPassword(), mapRoles(user.getRoles()));
-    }
-
-    private Collection<? extends GrantedAuthority> mapRoles(Collection<Role> roles) {
-        return roles.stream().map(r -> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toList());
+                , user.getPassword(), user.getAuthorities());
     }
 }
