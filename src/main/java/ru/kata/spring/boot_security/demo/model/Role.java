@@ -14,6 +14,7 @@ public class Role implements GrantedAuthority {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "name")
     private String name;
 
     public Role() {
@@ -59,6 +60,6 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String toString() {
-        return name.split("_")[1];
+        return name;
     }
 }

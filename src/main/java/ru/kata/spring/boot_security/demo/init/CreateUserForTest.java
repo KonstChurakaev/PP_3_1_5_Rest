@@ -3,7 +3,6 @@ package ru.kata.spring.boot_security.demo.init;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
@@ -18,14 +17,12 @@ import java.util.Set;
 public class CreateUserForTest implements ApplicationRunner {
 
 
-    private UserService userService;
-    private PasswordEncoder passwordEncoder;
-    private RoleService roleService;
+    private final UserService userService;
+    private final RoleService roleService;
 
     @Autowired
-    public CreateUserForTest(UserService userService, PasswordEncoder passwordEncoder, RoleService roleService) {
+    public CreateUserForTest(UserService userService, RoleService roleService) {
         this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
         this.roleService = roleService;
     }
 
