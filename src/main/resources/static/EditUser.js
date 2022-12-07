@@ -54,7 +54,7 @@ function editUser() {
         }
 
         fetch("/api/users/" + editForm.id.value, {
-            method: 'PATCH',
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -69,7 +69,7 @@ function editUser() {
             })
         }).then(() => {
             $('#editFormCloseButton').click();
-            allUsers();
+            // allUsers();
         })
     })
 }

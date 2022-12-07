@@ -63,8 +63,8 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(readOnly = true)
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = findUserByEmail(username);
+    public UserDetails loadUserByUsername(String userByEmail) throws UsernameNotFoundException {
+        User user = findUserByEmail(userByEmail);
         if (user == null) {
             throw new UsernameNotFoundException("Нет такого пользователя");
         }

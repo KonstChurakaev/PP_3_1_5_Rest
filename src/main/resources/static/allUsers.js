@@ -1,7 +1,8 @@
-$(async function() {
+$(async function () {
     await allUsers();
 });
 const table = $('#tbodyAllUserTable');
+
 async function allUsers() {
     table.empty()
     fetch("/api/users")
